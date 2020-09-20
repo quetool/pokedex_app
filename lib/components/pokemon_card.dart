@@ -21,7 +21,7 @@ class _PokemonCardState extends State<PokemonCard> {
   @override
   void initState() {
     super.initState();
-    this._pokemonData = widget.pokemonBase.pokemon;
+    _pokemonData = widget.pokemonBase.pokemon;
   }
 
   @override
@@ -33,7 +33,7 @@ class _PokemonCardState extends State<PokemonCard> {
           Radius.circular(MediaQuery.of(context).size.width / 2),
         ),
         boxShadow: [
-          BoxShadow(
+          const BoxShadow(
             color: Colors.black,
             blurRadius: 10.0,
             offset: Offset(0.0, 0.0),
@@ -48,28 +48,24 @@ class _PokemonCardState extends State<PokemonCard> {
             AspectRatio(
               aspectRatio: 1.0,
               child: Container(
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   image: DecorationImage(
                     image: AssetImage('assets/pokeball.png'),
                   ),
                 ),
-                child: (this._pokemonData == null)
-                    ? (this._opening)
+                child: (_pokemonData == null)
+                    ? (_opening)
                         ? Transform.rotate(
-                            angle: this._timer.tick.toDouble(),
+                            angle: _timer.tick.toDouble(),
                             child: Image.asset('assets/pokeball2.png'),
                           )
                         : Image.asset('assets/pokeball2.png')
                     : Hero(
-                        tag: this._pokemonData.name,
+                        tag: _pokemonData.name,
                         child: Image(
                           image: CachedNetworkImageProvider(
-                            this
-                                ._pokemonData
-                                .sprites
-                                .other
-                                .officialArtwork
-                                .frontDefault,
+                            _pokemonData
+                                .sprites.other.officialArtwork.frontDefault,
                             scale: 2.5,
                           ),
                         ),
@@ -83,8 +79,8 @@ class _PokemonCardState extends State<PokemonCard> {
     );
   }
 
-  _openPokeBall() {
-    if (this._pokemonData == null) {
+  void _openPokeBall() {
+    if (_pokemonData == null) {
       _getPokemonData();
     } else {
       Navigator.of(context).push(
@@ -92,25 +88,25 @@ class _PokemonCardState extends State<PokemonCard> {
             fullscreenDialog: true,
             builder: (BuildContext context) {
               return PokemonDetailsScreen(
-                pokemonData: this._pokemonData,
+                pokemonData: _pokemonData,
               );
             }),
       );
     }
   }
 
-  _getPokemonData() {
-    this._timer = Timer.periodic(Duration(milliseconds: 70), (timer) {
+  void _getPokemonData() {
+    _timer = Timer.periodic(const Duration(milliseconds: 70), (timer) {
       setState(() {
-        this._opening = true;
+        _opening = true;
       });
     });
     widget.pokemonBase.getPokemonData((pokemon) {
       if (mounted) {
-        this._timer.cancel();
+        _timer.cancel();
         setState(() {
-          this._pokemonData = pokemon;
-          this._opening = false;
+          _pokemonData = pokemon;
+          _opening = false;
         });
       }
     });
@@ -119,8 +115,8 @@ class _PokemonCardState extends State<PokemonCard> {
   @override
   void dispose() {
     super.dispose();
-    if (this._timer != null && this._timer.isActive) {
-      this._timer.cancel();
+    if (_timer != null && _timer.isActive) {
+      _timer.cancel();
     }
   }
 }
@@ -135,7 +131,7 @@ class PokemonCardLoading extends StatelessWidget {
           Radius.circular(MediaQuery.of(context).size.width / 2),
         ),
         boxShadow: [
-          BoxShadow(
+          const BoxShadow(
             color: Colors.black,
             blurRadius: 10.0,
             offset: Offset(0.0, 0.0),

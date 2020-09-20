@@ -35,13 +35,13 @@ class _HomeScreenState extends State<HomeScreen> {
         .listen((PokemonState data) {
       if (!mounted) return;
       setState(() {
-        this.pokemonState = data;
+        pokemonState = data;
       });
     });
     Provider.pokemonsBlocOf(context)
         .streamCurrentPokemon
         .listen((PokemonBase data) {
-      this.currentPokemon = data;
+      currentPokemon = data;
     });
   }
 
@@ -50,18 +50,18 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       backgroundColor: Colors.grey,
       appBar: AppBar(
-        backgroundColor: Color.fromRGBO(255, 62, 50, 1.0),
+        backgroundColor: const Color.fromRGBO(255, 62, 50, 1.0),
         title: Text((currentPokemon != null)
             ? Helpers().capitalize(currentPokemon.name)
-            : ""),
+            : ''),
         actions: [
           IconButton(
-            icon: Icon(
+            icon: const Icon(
               Icons.exit_to_app,
             ),
             onPressed: () {
               SharedPreferences.getInstance().then((prefs) {
-                var userId = prefs.getString("user_id");
+                var userId = prefs.getString('user_id');
                 Helpers().logOut(userId, (success, error) {
                   if (success) {
                     Navigator.of(context).pushReplacement(
@@ -89,17 +89,17 @@ class _HomeScreenState extends State<HomeScreen> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                     PokemonsList(
-                      scrollController: this.scrollController,
+                      scrollController: scrollController,
                     ),
                   ],
                 ),
               ),
-              (this.pokemonState.pokemons.isNotEmpty)
+              (pokemonState.pokemons.isNotEmpty)
                   ? Row(
                       children: <Widget>[
                         IconButton(
                           iconSize: 30.0,
-                          icon: Icon(Icons.arrow_back),
+                          icon: const Icon(Icons.arrow_back),
                           onPressed:
                               (_currentIndex() == 0) ? null : _previousBall,
                         ),
@@ -108,9 +108,9 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                         IconButton(
                           iconSize: 30.0,
-                          icon: Icon(Icons.arrow_forward),
+                          icon: const Icon(Icons.arrow_forward),
                           onPressed: (_currentIndex() ==
-                                  this.pokemonState.pokemons.length - 1)
+                                  pokemonState.pokemons.length - 1)
                               ? null
                               : _nextBall,
                         )
@@ -128,36 +128,31 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void _previousBall() {
-    int newIndex = _getNewIndex(isNext: false);
-    double offset = MediaQuery.of(context).size.width * newIndex;
-    this
-        .scrollController
+    var newIndex = _getNewIndex(isNext: false);
+    var offset = MediaQuery.of(context).size.width * newIndex;
+    scrollController
         .animateTo(offset,
-            duration: Duration(milliseconds: 200), curve: Curves.linear)
+            duration: const Duration(milliseconds: 200), curve: Curves.linear)
         .whenComplete(() => setState(() {}));
   }
 
   void _nextBall() {
-    int newIndex = _getNewIndex(isNext: true);
-    double offset = MediaQuery.of(context).size.width * newIndex;
-    this
-        .scrollController
+    var newIndex = _getNewIndex(isNext: true);
+    var offset = MediaQuery.of(context).size.width * newIndex;
+    scrollController
         .animateTo(offset,
-            duration: Duration(milliseconds: 200), curve: Curves.linear)
+            duration: const Duration(milliseconds: 200), curve: Curves.linear)
         .whenComplete(() => setState(() {}));
   }
 
   int _currentIndex() {
-    int current = this
-        .pokemonState
-        .pokemons
-        .indexWhere((element) => element.name == this.currentPokemon.name);
-    // print("current $current");
+    var current = pokemonState.pokemons
+        .indexWhere((element) => element.name == currentPokemon.name);
     return current;
   }
 
   int _getNewIndex({@required bool isNext}) {
-    int itemIndex = _currentIndex();
+    var itemIndex = _currentIndex();
     if (isNext) {
       itemIndex += 1;
     } else {

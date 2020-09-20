@@ -24,7 +24,7 @@ class ApiClient {
   }
 
   Future<http.Response> getPokemonDetails(String name) {
-    return http.get(_baseUrl + _pokemon + "/$name");
+    return http.get('$_baseUrl$_pokemon/$name');
   }
 
   void responseHandler(http.Response response,
@@ -54,7 +54,7 @@ class ApiClient {
       Function(ApiError error, Pokemon pokemon) completion) {
     if (response.statusCode == 200) {
       try {
-        var jsonObject = json.decode(response.body);
+        var jsonObject = json.decode(response.body) as Map<String, dynamic>;
         completion(null, Pokemon.fromJson(jsonObject));
       } catch (e) {
         print(e);

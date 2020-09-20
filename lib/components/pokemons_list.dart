@@ -17,7 +17,7 @@ class PokemonsList extends StatefulWidget {
 }
 
 class _PokemonsListState extends State<PokemonsList> {
-  var _scrollController;
+  ScrollController _scrollController;
   PokemonState pokemonState = PokemonState();
   int currentPage = 0;
   PokemonsBloc pokemonsBloc;
@@ -25,49 +25,48 @@ class _PokemonsListState extends State<PokemonsList> {
   @override
   void initState() {
     super.initState();
-    _scrollController = widget.scrollController;
-    _scrollController.addListener(_scrollListener);
+    _scrollController = widget.scrollController..addListener(_scrollListener);
   }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    this.pokemonsBloc = Provider.pokemonsBlocOf(context);
-    this.pokemonsBloc.streamPokemonsSate.listen((PokemonState data) {
+    pokemonsBloc = Provider.pokemonsBlocOf(context);
+    pokemonsBloc.streamPokemonsSate.listen((PokemonState data) {
       if (!mounted) return;
       setState(() {
-        this.pokemonState = data;
+        pokemonState = data;
       });
-      if (this.pokemonState.pokemons.isNotEmpty) {
-        this.pokemonsBloc.sinkCurrentPokemon(
-              this.pokemonState.pokemons[this.currentPage],
-            );
+      if (pokemonState.pokemons.isNotEmpty) {
+        pokemonsBloc.sinkCurrentPokemon(
+          pokemonState.pokemons[currentPage],
+        );
       }
     });
   }
 
   void _evaluateMetrics(ScrollMetrics metrics) {
-    this.currentPage = getCurrentPage(
+    currentPage = getCurrentPage(
       metrics.extentBefore,
       maxExtension: metrics.viewportDimension,
     );
-    var endPage = metrics.viewportDimension * this.currentPage;
+    var endPage = metrics.viewportDimension * currentPage;
     Future.delayed(Duration.zero, () {
       _scrollController.animateTo(
         endPage,
-        duration: Duration(milliseconds: 100),
+        duration: const Duration(milliseconds: 100),
         curve: Curves.linear,
       );
     });
   }
 
   void _scrollListener() {
-    this.currentPage = getCurrentPage(_scrollController.offset);
-    if (this.currentPage < 0 ||
-        this.currentPage > (this.pokemonState.pokemons.length - 1)) return;
-    this.pokemonsBloc.sinkCurrentPokemon(
-          this.pokemonState.pokemons[this.currentPage],
-        );
+    currentPage = getCurrentPage(_scrollController.offset);
+    if (currentPage < 0 || currentPage > (pokemonState.pokemons.length - 1))
+      return;
+    pokemonsBloc.sinkCurrentPokemon(
+      pokemonState.pokemons[currentPage],
+    );
   }
 
   int getCurrentPage(double offset, {double maxExtension}) {
@@ -77,7 +76,7 @@ class _PokemonsListState extends State<PokemonsList> {
 
   @override
   Widget build(BuildContext context) {
-    return (this.pokemonState.loading)
+    return (pokemonState.loading)
         ? PokemonCardLoading()
         : Column(
             children: [
@@ -96,15 +95,15 @@ class _PokemonsListState extends State<PokemonsList> {
                       controller: _scrollController,
                       itemBuilder: (BuildContext context, int index) {
                         return PokemonCard(
-                          pokemonBase: this.pokemonState.pokemons[index],
+                          pokemonBase: pokemonState.pokemons[index],
                         );
                       },
-                      itemCount: this.pokemonState.pokemons.length,
+                      itemCount: pokemonState.pokemons.length,
                     ),
                   ),
                 ),
               ),
-              Text(
+              const Text(
                 Strings.info,
                 textAlign: TextAlign.center,
               ),

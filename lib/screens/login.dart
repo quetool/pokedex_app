@@ -73,7 +73,7 @@ class _LoginScreenState extends State<LoginScreen>
           FocusScope.of(context).unfocus();
         },
         child: Container(
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             color: Colors.grey,
             gradient: LinearGradient(
               colors: [
@@ -82,7 +82,7 @@ class _LoginScreenState extends State<LoginScreen>
               ],
             ),
             image: DecorationImage(
-              image: AssetImage("assets/pokeball2.png"),
+              image: AssetImage('assets/pokeball2.png'),
               repeat: ImageRepeat.repeat,
             ),
           ),
@@ -91,20 +91,20 @@ class _LoginScreenState extends State<LoginScreen>
           child: (_checkingUser)
               ? Container(width: 0.0, height: 0.0)
               : (_firstTime)
-                  ? SplashView()
+                  ? const SplashView()
                   : LoginView(
-                      animationController: this._animationController,
+                      animationController: _animationController,
                     ),
         ),
       ),
-      floatingActionButton: (this._firstTime)
+      floatingActionButton: (_firstTime)
           ? SizedBox(
               width: 100.0,
               height: 100.0,
               child: FloatingActionButton(
                 elevation: 16.0,
                 child: Container(
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     image: DecorationImage(
                       image: AssetImage('assets/pokeball2.png'),
                     ),
@@ -112,10 +112,10 @@ class _LoginScreenState extends State<LoginScreen>
                 ),
                 onPressed: () {
                   SharedPreferences.getInstance().then((prefs) {
-                    prefs.setBool("first_time", false).then((value) {
-                      Future.delayed(Duration(milliseconds: 200), () {
+                    prefs.setBool('first_time', false).then((value) {
+                      Future.delayed(const Duration(milliseconds: 200), () {
                         setState(() {
-                          this._firstTime = false;
+                          _firstTime = false;
                         });
                         _animationController.forward();
                       });

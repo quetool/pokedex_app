@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:typed_data';
 import 'package:pointycastle/digests/sha512.dart';
 import 'package:pokedex_app/database/db_provider.dart';
 import 'package:pokedex_app/helpers/strings.dart';
@@ -6,7 +7,7 @@ import 'package:pokedex_app/models/db_user.dart';
 
 class Helpers {
   Future<bool> checkLogin(String userId) async {
-    DBProvider dbProvider = DBProvider();
+    var dbProvider = DBProvider();
     await dbProvider.init();
     var user = await dbProvider.getUser(userId);
     return (user != null) ? user.isLogged : false;
@@ -14,9 +15,9 @@ class Helpers {
 
   void loginUser(String username, String password,
       Function(DBUser user, String error) completion) async {
-    DBProvider dbProvider = DBProvider();
+    var dbProvider = DBProvider();
     await dbProvider.init();
-    dbProvider
+    await dbProvider
         .loginUser(
       username,
       Helpers().hashPassword(password),
@@ -39,9 +40,9 @@ class Helpers {
 
   void logOut(
       String userId, Function(bool success, String error) completion) async {
-    DBProvider dbProvider = DBProvider();
+    var dbProvider = DBProvider();
     await dbProvider.init();
-    dbProvider.getUser(userId).then((dbUser) {
+    await dbProvider.getUser(userId).then((dbUser) {
       dbUser.isLogged = false;
       dbProvider.upsertUser(dbUser).then((success) {
         completion(success, success ? null : Strings.loginOut);
@@ -50,18 +51,17 @@ class Helpers {
   }
 
   String capitalize(String s) {
-    if (s == "") return "";
-    if (s.contains(" ")) {
+    if (s == '') return '';
+    if (s.contains(' ')) {
       try {
-        String newString = "";
-        List<String> parts = s.split(" ");
-        parts.forEach((part) {
-          newString += (part[0] == "¿")
+        var newString = '';
+        s.split(' ').forEach((part) {
+          newString += (part[0] == '¿')
               ? part[0] +
                   part[1].toUpperCase() +
                   part.substring(2).toLowerCase()
               : part[0].toUpperCase() + part.substring(1).toLowerCase();
-          newString += " ";
+          newString += ' ';
         });
         newString = newString.trimRight();
 
@@ -71,7 +71,7 @@ class Helpers {
       }
     }
     try {
-      return (s[0] == "¿")
+      return (s[0] == '¿')
           ? s[0] + s[1].toUpperCase() + s.substring(2).toLowerCase()
           : s[0].toUpperCase() + s.substring(1).toLowerCase();
     } catch (e) {
@@ -80,7 +80,7 @@ class Helpers {
   }
 
   String hashPassword(String password) {
-    var bytes = utf8.encode(password + "pokedex");
+    var bytes = utf8.encode('${password}pokedex') as Uint8List;
     var digest = SHA512Digest().process(bytes);
     return base64.encode(digest);
   }

@@ -67,8 +67,8 @@ class _LoginViewState extends State<LoginView> {
                   autovalidate: _autoValidate,
                   child: Column(
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.only(top: 8.0, bottom: 16.0),
+                      const Padding(
+                        padding: EdgeInsets.only(top: 8.0, bottom: 16.0),
                         child: Text(Strings.welcome),
                       ),
                       Padding(
@@ -97,7 +97,7 @@ class _LoginViewState extends State<LoginView> {
                           decoration: InputDecoration(
                             hintText: Strings.password.toUpperCase(),
                           ),
-                          obscuringCharacter: "@",
+                          obscuringCharacter: '@',
                           obscureText: true,
                           autocorrect: false,
                           autovalidate: false,
@@ -110,7 +110,7 @@ class _LoginViewState extends State<LoginView> {
                       Padding(
                         padding: const EdgeInsets.only(bottom: 16.0),
                         child: RaisedButton(
-                          child: Text(Strings.coninueButton),
+                          child: const Text(Strings.coninueButton),
                           onPressed: _validateInputs,
                         ),
                       ),
@@ -136,7 +136,7 @@ class _LoginViewState extends State<LoginView> {
           (user, error) {
         if (user != null) {
           SharedPreferences.getInstance().then((prefs) {
-            prefs.setString("user_id", user.id).then((value) {
+            prefs.setString('user_id', user.id).then((value) {
               _goToHomeScreen();
             });
           });
@@ -158,7 +158,7 @@ class _LoginViewState extends State<LoginView> {
   }
 
   void _showErrorWithTitle(String title) {
-    showDialog(
+    showDialog<AlertDialog>(
       context: context,
       barrierDismissible: false,
       builder: (BuildContext context) {
@@ -169,7 +169,7 @@ class _LoginViewState extends State<LoginView> {
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: Text(Strings.okButton),
+              child: const Text(Strings.okButton),
             )
           ],
         );

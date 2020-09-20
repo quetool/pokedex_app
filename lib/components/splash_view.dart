@@ -17,7 +17,7 @@ class SplashView extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text(
+                const Text(
                   Strings.welcome,
                   style: TextStyle(
                     color: Colors.white,
@@ -25,7 +25,7 @@ class SplashView extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                Text(
+                const Text(
                   Strings.tapPokeball,
                   style: TextStyle(
                     color: Colors.white,

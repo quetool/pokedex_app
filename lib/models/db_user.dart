@@ -1,4 +1,12 @@
 class DBUser {
+  DBUser();
+  DBUser.fromMap(Map<String, dynamic> map) {
+    id = map[columnId] as String;
+    username = map[columnUsername] as String;
+    password = map[columnPassword] as String;
+    isLogged = map[columnIsLogged] == 1 ? true : false;
+  }
+
   String id;
   String username;
   String password;
@@ -20,14 +28,5 @@ class DBUser {
       map[columnId] = id;
     }
     return map;
-  }
-
-  DBUser();
-
-  DBUser.fromMap(Map<String, dynamic> map) {
-    id = map[columnId];
-    username = map[columnUsername];
-    password = map[columnPassword];
-    isLogged = map[columnIsLogged] == 1 ? true : false;
   }
 }

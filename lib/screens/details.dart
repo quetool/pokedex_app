@@ -21,7 +21,7 @@ class _PokemonDetailsScreenState extends State<PokemonDetailsScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Color.fromRGBO(255, 62, 50, 1.0),
+        backgroundColor: const Color.fromRGBO(255, 62, 50, 1.0),
         title: Text(Helpers().capitalize(widget.pokemonData.name)),
         actions: [
           AspectRatio(
@@ -33,7 +33,7 @@ class _PokemonDetailsScreenState extends State<PokemonDetailsScreen> {
                   backgroundColor: Colors.white24,
                   child: Text(
                     widget.pokemonData.order.toString(),
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
                       fontSize: 20.0,
@@ -80,12 +80,12 @@ class _PokemonDetailsScreenState extends State<PokemonDetailsScreen> {
                               backgroundColor: Colors.green,
                               child: Text(
                                 widget.pokemonData.height.toString(),
-                                style: TextStyle(
+                                style: const TextStyle(
                                   fontSize: 12.0,
                                 ),
                               ),
                             ),
-                            label: Text(Strings.height),
+                            label: const Text(Strings.height),
                           ),
                         ),
                         Container(
@@ -96,12 +96,12 @@ class _PokemonDetailsScreenState extends State<PokemonDetailsScreen> {
                               backgroundColor: Colors.green,
                               child: Text(
                                 widget.pokemonData.weight.toString(),
-                                style: TextStyle(
+                                style: const TextStyle(
                                   fontSize: 12.0,
                                 ),
                               ),
                             ),
-                            label: Text(Strings.weight),
+                            label: const Text(Strings.weight),
                           ),
                         ),
                       ],
@@ -115,7 +115,7 @@ class _PokemonDetailsScreenState extends State<PokemonDetailsScreen> {
                   children: [
                     Container(
                       padding: const EdgeInsets.only(left: 16.0),
-                      child: Text(
+                      child: const Text(
                         Strings.stats,
                         style: TextStyle(
                           color: Colors.black,
@@ -136,7 +136,7 @@ class _PokemonDetailsScreenState extends State<PokemonDetailsScreen> {
                                 child: Text(
                                   widget.pokemonData.stats[index].baseStat
                                       .toString(),
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     fontSize: 12.0,
                                   ),
                                 ),
@@ -158,7 +158,7 @@ class _PokemonDetailsScreenState extends State<PokemonDetailsScreen> {
                   children: [
                     Container(
                       padding: const EdgeInsets.only(left: 16.0),
-                      child: Text(
+                      child: const Text(
                         Strings.moves,
                         style: TextStyle(
                           color: Colors.black,
