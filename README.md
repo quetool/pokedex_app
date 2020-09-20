@@ -2,7 +2,7 @@
 
 ## Instructions
 
-● Use the public Pokedex API [​https://pokeapi.co/](​https://pokeapi.co/)​ to create a small mobile application using Flutter
+● Use the public Pokedex API [https://pokeapi.co/](https://pokeapi.co/) to create a small mobile application using Flutter
 
 ● In your mobile application create the following views:
   - Onboard/welcome
@@ -12,7 +12,32 @@
 
 ● Include
   - Documentation on how to run the project locally
+  
+  clone repo `git clone https://github.com/quetool/pokedex_app.git`
+
+  move to root project folder `cd {clone_path}`
+  
+  get packages `flutter pub get`
+  
+  run on iOS `flutter run` or, better, `flutter run --release`
+  
   - Why do you chose the plugins used
+  
+  `http` for API request
+  
+  `rxdart` for a simply implementation of BLoC pattern
+  
+  `shimmer` for shimmering effect during loading Pokemon
+  
+  `cached_network_image` for caching Pokemon's images
+  
+  `pointycastle` for creating a secure password
+  
+  `sqflite` for implementing a dummy user login and storing it (more secure than SharedPreferences)
+  
+  `shared_preferences` for storing some flags
+  
+  `very_good_analysis` for static code analisys rules
 
 Notes
 
