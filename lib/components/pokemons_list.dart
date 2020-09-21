@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pokedex_app/bloc/pokemon_bloc.dart';
 import 'package:pokedex_app/bloc/provider.dart';
-import 'package:pokedex_app/components/pokemon_card.dart';
+import 'package:pokedex_app/components/pokeball.dart';
 import 'package:pokedex_app/helpers/strings.dart';
 
 class PokemonsList extends StatefulWidget {
@@ -77,7 +77,7 @@ class _PokemonsListState extends State<PokemonsList> {
   @override
   Widget build(BuildContext context) {
     return (pokemonState.loading && pokemonState.currentPage == 0)
-        ? PokemonCardLoading()
+        ? PokeBallLoading()
         : Column(
             children: [
               Container(
@@ -94,7 +94,7 @@ class _PokemonsListState extends State<PokemonsList> {
                       scrollDirection: Axis.horizontal,
                       controller: _scrollController,
                       itemBuilder: (BuildContext context, int index) {
-                        return PokemonCard(
+                        return PokeBall(
                           pokemonBase: pokemonState.pokemons[index],
                         );
                       },

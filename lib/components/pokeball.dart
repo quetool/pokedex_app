@@ -6,14 +6,14 @@ import 'package:pokedex_app/models/pokemon.dart';
 import 'package:pokedex_app/screens/details.dart';
 import 'package:shimmer/shimmer.dart';
 
-class PokemonCard extends StatefulWidget {
-  PokemonCard({@required this.pokemonBase});
+class PokeBall extends StatefulWidget {
+  PokeBall({@required this.pokemonBase});
   final PokemonBase pokemonBase;
   @override
-  _PokemonCardState createState() => _PokemonCardState();
+  _PokeBallState createState() => _PokeBallState();
 }
 
-class _PokemonCardState extends State<PokemonCard> {
+class _PokeBallState extends State<PokeBall> {
   Pokemon _pokemonData;
   bool _opening = false;
   Timer _timer;
@@ -96,7 +96,7 @@ class _PokemonCardState extends State<PokemonCard> {
   }
 
   void _getPokemonData() {
-    _timer = Timer.periodic(const Duration(milliseconds: 70), (timer) {
+    _timer = Timer.periodic(const Duration(milliseconds: 50), (timer) {
       setState(() {
         _opening = true;
       });
@@ -121,7 +121,7 @@ class _PokemonCardState extends State<PokemonCard> {
   }
 }
 
-class PokemonCardLoading extends StatelessWidget {
+class PokeBallLoading extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
