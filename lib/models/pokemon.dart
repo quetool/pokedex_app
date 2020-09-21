@@ -12,7 +12,7 @@ class PokemonBase {
   }
   String name;
   String url;
-  Pokemon pokemon;
+  Pokemon pokemonData;
 
   Map<String, dynamic> toJson() {
     final data = <String, dynamic>{};
@@ -25,8 +25,8 @@ class PokemonBase {
     ApiClient().getPokemonDetails(name).then(
           (response) =>
               ApiClient().responseHandlerPokemon(response, (error, pokemon) {
-            pokemon = pokemon;
-            completion(pokemon);
+            pokemonData = pokemon;
+            completion(pokemonData);
           }),
         );
   }

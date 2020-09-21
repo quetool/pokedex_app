@@ -21,7 +21,7 @@ class _PokemonCardState extends State<PokemonCard> {
   @override
   void initState() {
     super.initState();
-    _pokemonData = widget.pokemonBase.pokemon;
+    _pokemonData = widget.pokemonBase.pokemonData;
   }
 
   @override
