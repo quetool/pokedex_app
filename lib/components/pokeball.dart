@@ -28,7 +28,7 @@ class _PokeBallState extends State<PokeBall> {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Colors.transparent,
         borderRadius: BorderRadius.all(
           Radius.circular(MediaQuery.of(context).size.width / 2),
         ),
