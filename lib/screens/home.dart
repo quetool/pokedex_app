@@ -16,6 +16,7 @@ class _HomeScreenState extends State<HomeScreen> {
   var scrollController = ScrollController();
   PokemonBase currentPokemon;
   PokemonState pokemonState = PokemonState();
+  PokemonsBloc pokemonBloc;
 
   @override
   void initState() {
@@ -23,24 +24,25 @@ class _HomeScreenState extends State<HomeScreen> {
     scrollController.addListener(() {
       if (!mounted) return;
       setState(() {});
+      var currentIndex = _currentIndex();
+      if (currentIndex == pokemonState.pokemons.length - 1 &&
+          !pokemonState.loading) {
+        pokemonBloc.getMorePokemons();
+      }
     });
   }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    Provider.pokemonsBlocOf(context).getPokemons();
-    Provider.pokemonsBlocOf(context)
-        .streamPokemonsSate
-        .listen((PokemonState data) {
+    pokemonBloc = Provider.pokemonsBlocOf(context)..getPokemons();
+    pokemonBloc.streamPokemonsSate.listen((PokemonState data) {
       if (!mounted) return;
       setState(() {
         pokemonState = data;
       });
     });
-    Provider.pokemonsBlocOf(context)
-        .streamCurrentPokemon
-        .listen((PokemonBase data) {
+    pokemonBloc.streamCurrentPokemon.listen((PokemonBase data) {
       currentPokemon = data;
     });
   }
@@ -97,23 +99,49 @@ class _HomeScreenState extends State<HomeScreen> {
               (pokemonState.pokemons.isNotEmpty)
                   ? Row(
                       children: <Widget>[
-                        IconButton(
-                          iconSize: 30.0,
-                          icon: const Icon(Icons.arrow_back),
-                          onPressed:
-                              (_currentIndex() == 0) ? null : _previousBall,
+                        Expanded(
+                          child: IconButton(
+                            iconSize: 30.0,
+                            icon: const Icon(Icons.arrow_back),
+                            onPressed:
+                                (_currentIndex() == 0) ? null : _previousBall,
+                          ),
                         ),
                         Expanded(
-                          child: Container(),
+                          child: Container(
+                            child: (pokemonState.loading &&
+                                    pokemonState.currentPage > 0)
+                                ? Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Container(
+                                        width: 30.0,
+                                        height: 30.0,
+                                        child: const CircularProgressIndicator(
+                                          strokeWidth: 4.0,
+                                        ),
+                                      )
+                                    ],
+                                  )
+                                : CircleAvatar(
+                                    child: Text(
+                                      (_currentIndex() + 1).toString(),
+                                    ),
+                                  ),
+                          ),
                         ),
-                        IconButton(
-                          iconSize: 30.0,
-                          icon: const Icon(Icons.arrow_forward),
-                          onPressed: (_currentIndex() ==
-                                  pokemonState.pokemons.length - 1)
-                              ? null
-                              : _nextBall,
-                        )
+                        Expanded(
+                          child: IconButton(
+                            iconSize: 30.0,
+                            icon: const Icon(Icons.arrow_forward),
+                            onPressed: (_currentIndex() ==
+                                    pokemonState.pokemons.length - 1)
+                                ? null
+                                : _nextBall,
+                          ),
+                        ),
                       ],
                     )
                   : Container(

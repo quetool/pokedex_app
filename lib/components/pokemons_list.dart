@@ -76,7 +76,7 @@ class _PokemonsListState extends State<PokemonsList> {
 
   @override
   Widget build(BuildContext context) {
-    return (pokemonState.loading)
+    return (pokemonState.loading && pokemonState.currentPage == 0)
         ? PokemonCardLoading()
         : Column(
             children: [

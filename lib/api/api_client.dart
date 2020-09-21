@@ -11,6 +11,7 @@ class ApiClient {
 
   String _baseUrl;
   String _pokemon;
+  int limit = 20;
 
   static final ApiClient _singleton = ApiClient._internal().._init();
 
@@ -19,8 +20,8 @@ class ApiClient {
     _pokemon = '/pokemon';
   }
 
-  Future<http.Response> getPokemons() {
-    return http.get(_baseUrl + _pokemon);
+  Future<http.Response> getPokemons(String offset) {
+    return http.get('$_baseUrl$_pokemon?limit=$limit&offset=$offset');
   }
 
   Future<http.Response> getPokemonDetails(String name) {
